@@ -33,7 +33,21 @@
         }
 
         function start() {
+            const ws = new WebSocket("wss://bubbler.rolsdorph.io", "bubbler-v0");
+            ws.onmessage = handleWsMessage;
+
             window.requestAnimationFrame(render);
+        }
+
+        function handleWsMessage(event) {
+            var msg = JSON.parse(event.data);
+            if (msg.type == "setupInfo") {
+                document.getElementById("webhookInfo").innerText = msg.webhookUrl;
+            } else if (msg.type == "webhookMessage") {
+                addBubble(randomInRange(25, 100));
+            } else {
+                console.log(`Unexpected message type: ${msg.type}`);
+            }
         }
 
         function render(timestamp) {
@@ -70,10 +84,20 @@
             padding: 0;
             margin: 0;
         }
+
+        div#webhookInfo {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-top: 10%;
+            font-size: 50px;
+        }
     </style>
 </head>
 
 <body onload="start();">
+    <div id="webhookInfo"></div>
     <canvas id="bubbles"></canvas>
 </body>
 
