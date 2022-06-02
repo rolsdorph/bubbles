@@ -5,13 +5,13 @@
         Bubbles
     </title>
     <script type="application/javascript">
+        const WS_SERVER = "ws://127.0.0.1:3001";
+        const WS_PROTOCOL = "bubbler-v0";
         const TICK_MS = 20; // 50 FPS
         const FLOAT_SPEED = 0.6;
         let lastRender;
 
         const bubbles = [];
-        addBubble(25);
-        addBubble(50);
 
         function addBubble(targetValue) {
             bubbles.push({
@@ -33,7 +33,7 @@
         }
 
         function start() {
-            const ws = new WebSocket("wss://bubbler.rolsdorph.io", "bubbler-v0");
+            const ws = new WebSocket(WS_SERVER, WS_PROTOCOL);
             ws.onmessage = handleWsMessage;
 
             window.requestAnimationFrame(render);
