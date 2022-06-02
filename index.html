@@ -16,12 +16,16 @@
         function addBubble(targetValue) {
             bubbles.push({
                 // Spawn at a random horizontal position, fully inside the viewport:
-                "x": Math.floor(Math.random() * (window.innerWidth - targetValue + 1)) + targetValue,
+                "x": randomInRange(targetValue, window.innerWidth - targetValue),
                 // Spawn just below the viewport:
                 "y": window.innerHeight + targetValue,
                 "r": targetValue,
                 "fillStyle": fillFor(targetValue)
             });
+        }
+
+        function randomInRange(minInclusive, maxInclusive) {
+            return Math.floor(Math.random() * (maxInclusive - minInclusive + 1) + minInclusive);
         }
 
         function fillFor(targetValue) {
