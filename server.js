@@ -1,5 +1,5 @@
-import { WebSocketServer } from 'ws';
 import * as http from 'http';
+import { WebSocketServer } from 'ws';
 
 const proxies = new Map();
 
@@ -30,12 +30,38 @@ const server = http.createServer((req, res) => {
         console.log(`Unknown proxy: ${proxyId}`);
         res.end('Not found');
     } else {
-        res.statusCode = 204;
-        console.log(`Delivering message to ${proxyId}`);
-        targetProxy.send(JSON.stringify(proxyMsg({
-            'data-from-request': 'hello' // TODO: proxy real data
-        })));
-        res.end();
+        if (req.method.toUpperCase() !== 'POST') {
+            console.log(`Unsupported request method: ${req.method}`);
+            res.statusCode = 405;
+            res.setHeader('Allow', 'POST');
+            res.end('Method Not Allowed');
+        } else {
+            let body = '';
+            req.on('data', d => {
+                body += d; // TODO: limit number of bytes here, or move to a framework that handles max size (and path mapping and whatnot)
+            });
+            req.on('end', () => {
+                try {
+                    const parsedMessage = JSON.parse(body);
+                    console.log(`Delivering message to ${proxyId}`);
+                    targetProxy.send(JSON.stringify(proxyMsg({
+                        'dataFromRequest': parsedMessage
+                    })));
+                    res.statusCode = 204;
+                    res.end();
+                } catch (e) {
+                    if (e instanceof SyntaxError) {
+                        console.log(`Dropping invalid JSON to ${proxyId}`);
+                        res.statusCode = 400;
+                        res.end('Invalid JSON');
+                    } else {
+                        console.error(`Unexpected exception while proxying data: ${e}`);
+                        res.statusCode = 500;
+                        res.end('Internal Server Error');
+                    }
+                }
+            });
+        }
     }
 });
 
