@@ -4,9 +4,13 @@ import * as http from 'http';
 const proxies = new Map();
 
 function addProxy(wsConnection) {
-    let r = (Math.random() + 1).toString(36).substring(7);
+    let r = createWebhookId();
     proxies.set(r, wsConnection);
     return r;
+}
+
+function createWebhookId() {
+    return (Math.random() + 1).toString(36).substring(7);
 }
 
 /**
