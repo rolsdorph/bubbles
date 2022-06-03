@@ -12,6 +12,10 @@
         let lastRender;
 
         const bubbles = [];
+        const bubbleConfig = {
+            radiusMapper: () => 25,
+            colorMapper: () => 'red'
+        }
 
         function addBubble(targetValue) {
             bubbles.push({
@@ -44,7 +48,7 @@
             if (msg.type == "setupInfo") {
                 document.getElementById("webhookInfo").innerText = msg.webhookUrl;
             } else if (msg.type == "webhookMessage") {
-                addBubble(randomInRange(25, 100));
+                addBubble(bubbleConfig.radiusMapper(msg['dataFromWebhook']));
             } else {
                 console.log(`Unexpected message type: ${msg.type}`);
             }

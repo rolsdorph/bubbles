@@ -103,6 +103,6 @@ function setupInfoMsg(webhookId) {
 function proxyMsg(payload) {
     return {
         'type': 'webhookMessage',
-        'payload': payload
+        'dataFromWebhook': payload
     }
 }
