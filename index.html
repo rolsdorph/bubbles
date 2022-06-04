@@ -10,22 +10,27 @@
         const WS_PROTOCOL = "bubbler-v0";
         const TICK_MS = 20; // 50 FPS
         const FLOAT_SPEED = 0.6;
+        const COLORS = ['red', 'green', 'blue', 'purple', 'yellow', 'orange'];
         let lastRender;
+
+        function randomColor() {
+            return COLORS[randomInRange(0, COLORS.length - 1)];
+        }
 
         const bubbles = [];
         const bubbleConfig = {
-            radiusMapper: () => 25,
-            colorMapper: () => 'red'
+            radiusMapper: () => randomInRange(25, 100),
+            colorMapper: randomColor
         }
 
-        function addBubble(targetValue) {
+        function addBubble(radius, fill) {
             bubbles.push({
                 // Spawn at a random horizontal position, fully inside the viewport:
-                "x": randomInRange(targetValue, window.innerWidth - targetValue),
+                "x": randomInRange(radius, window.innerWidth - radius),
                 // Spawn just below the viewport:
-                "y": window.innerHeight + targetValue,
-                "r": targetValue,
-                "fillStyle": fillFor(targetValue)
+                "y": window.innerHeight + radius,
+                "r": radius,
+                "fillStyle": fill
             });
         }
 
@@ -54,7 +59,7 @@
             if (msg.type == "setupInfo") {
                 document.getElementById("webhookInfo").innerText = msg.webhookUrl;
             } else if (msg.type == "webhookMessage") {
-                addBubble(bubbleConfig.radiusMapper(msg['dataFromWebhook']));
+                addBubble(bubbleConfig.radiusMapper(msg['dataFromWebhook']), bubbleConfig.colorMapper(msg['dataFromWebhook']));
             } else {
                 console.log(`Unexpected message type: ${msg.type}`);
             }
