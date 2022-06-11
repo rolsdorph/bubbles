@@ -38,7 +38,7 @@
         function nestedFieldExtractor(fields) {
             return data => {
                 let currentNode = data;
-                for (var field of fields) {
+                for (let field of fields) {
                     currentNode = currentNode[field];
                     if (currentNode === undefined) {
                         return undefined;
@@ -88,7 +88,7 @@
         }
 
         function handleWsMessage(event) {
-            var msg = JSON.parse(event.data);
+            const msg = JSON.parse(event.data);
             if (msg.type == "setupInfo") {
                 document.getElementById("webhookUrl").innerText = msg.webhookUrl;
             } else if (msg.type == "webhookMessage") {
@@ -105,11 +105,11 @@
             }
 
             if (timestamp - lastRender > TICK_MS) {
-                var canvas = document.getElementById("bubbles");
+                const canvas = document.getElementById("bubbles");
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
 
-                var ctx = canvas.getContext('2d');
+                const ctx = canvas.getContext('2d');
                 for (let i = bubbles.length - 1; i >= 0; i--) {
                     const bubble = bubbles[i];
 
