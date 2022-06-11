@@ -24,6 +24,30 @@
             colorMapper: randomColor
         }
 
+        function extractNumericOrDefault(extractor, defaultValue) {
+            return data => {
+                const extracted = extractor(data);
+                if (typeof extracted == 'number') {
+                    return extracted;
+                } else {
+                    return defaultValue;
+                }
+            }
+        }
+
+        function nestedFieldExtractor(fields) {
+            return data => {
+                let currentNode = data;
+                for (var field of fields) {
+                    currentNode = currentNode[field];
+                    if (currentNode === undefined) {
+                        return undefined;
+                    }
+                }
+                return currentNode;
+            };
+        }
+
         function addBubble(radius, fill) {
             bubbles.push({
                 // Spawn at a random horizontal position, fully inside the viewport:
