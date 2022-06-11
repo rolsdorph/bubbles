@@ -21,7 +21,7 @@ export class JsonFieldSelector extends React.Component {
                             title="The JSON field to fetch a numeric value from. Use dots for nested fields."></i>
                     </div>
                 </div>
-                <div class="row mb-3 align-items-center">
+                <div class="row align-items-center">
                     <div class="col-4">
                         Value range
                     </div>

@@ -39,13 +39,13 @@ class RadiusConfig extends React.Component {
 
     render() {
         return (
-            <form class="container mb-4 p-4">
+            <form class="container mb-4 p-4" >
                 <div class="row mb-4 text-center">
                     <h4>
                         Radius calculation
                     </h4>
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                     <div id="radius-calculation" class="btn-group mb-3" role="group"
                         aria-label="Radius calculation">
                         <input type="radio" name="radiusType" value={RadiusConfig.random} id="radius-random" class="btn-check" checked={this.randomRadiusSelected()}
