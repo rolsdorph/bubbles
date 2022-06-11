@@ -82,7 +82,7 @@
         function handleWsMessage(event) {
             var msg = JSON.parse(event.data);
             if (msg.type == "setupInfo") {
-                document.getElementById("webhookInfo").innerText = msg.webhookUrl;
+                document.getElementById("webhookUrl").innerText = msg.webhookUrl;
             } else if (msg.type == "webhookMessage") {
                 let value = bubbleConfig.fieldExtractor(msg['dataFromWebhook']);
                 addBubble(bubbleConfig.radiusMapper(value), bubbleConfig.colorMapper(value));
@@ -153,20 +153,24 @@
 
         div#webhookInfo {
             position: absolute;
+            margin-top: 10%;
             width: 100%;
+
             display: flex;
             justify-content: center;
-            padding-top: 10%;
+            align-items: center;
+
             font-size: 50px;
         }
     </style>
 </head>
 
 <body onload="start();">
-    <div id="webhookInfo"></div>
+    <div id="webhookInfo">
+        <span id="webhookUrl"></span>
+    </div>
+
+
     <canvas id="bubbles"></canvas>
-</body>
-
-
 
 </html>
