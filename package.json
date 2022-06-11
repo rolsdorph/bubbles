@@ -4,5 +4,9 @@
     "dependencies": {
         "ws": "8.7.0"
     },
-    "type": "module"
+    "type": "module",
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-react-app": "^3.1.2"
+    }
 }
