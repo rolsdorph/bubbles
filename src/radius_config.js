@@ -10,7 +10,7 @@ class RadiusConfig extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            'radiusType': RadiusConfig.dynamic,
+            'radiusType': RadiusConfig.random,
             'radius': 40,
             'minRadius': 25,
             'maxRadius': 60,
