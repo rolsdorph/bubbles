@@ -3,12 +3,19 @@ export class RangeRadiusSelector extends React.Component {
         super(props);
 
         this.state = {
-            'min': 25,
-            'max': 60
+            'min': props.initialMin,
+            'max': props.initialMax
         };
 
         this.updateMin = this.updateMin.bind(this);
         this.updateMax = this.updateMax.bind(this);
+    }
+
+    onUpdate() {
+        this.props.onUpdate({
+            'min': this.state.min,
+            'max': this.state.max
+        });
     }
 
     updateMin(event) {
@@ -23,6 +30,8 @@ export class RangeRadiusSelector extends React.Component {
                 return oldState;
             }
         });
+
+        this.onUpdate();
     }
 
     updateMax(event) {
@@ -37,6 +46,8 @@ export class RangeRadiusSelector extends React.Component {
                 return oldState;
             }
         });
+
+        this.onUpdate();
     }
 
     render() {

@@ -10,13 +10,43 @@ class RadiusConfig extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            'radiusType': RadiusConfig.random
+            'radiusType': RadiusConfig.dynamic,
+            'radius': 40,
+            'minRadius': 25,
+            'maxRadius': 60,
+            'minValue': null,
+            'maxValue': null,
+            'jsonField': null
         };
 
         this.randomRadiusSelected = this.randomRadiusSelected.bind(this);
         this.fixedRadiusSelected = this.fixedRadiusSelected.bind(this);
         this.dynamicRadiusSelected = this.dynamicRadiusSelected.bind(this);
         this.updateFormState = this.updateFormState.bind(this);
+        this.onFixedUpdate = this.onFixedUpdate.bind(this);
+        this.onRangeUpdate = this.onRangeUpdate.bind(this);
+        this.onFieldUpdate = this.onFieldUpdate.bind(this);
+    }
+
+    onFixedUpdate(event) {
+        this.setState({
+            'radius': event.radius
+        });
+    }
+
+    onRangeUpdate(event) {
+        this.setState({
+            'minRadius': event.min,
+            'maxRadius': event.max,
+        });
+    }
+
+    onFieldUpdate(event) {
+        this.setState({
+            'jsonField': event.field,
+            'minValue': event.min,
+            'maxValue': event.max
+        });
     }
 
     randomRadiusSelected() {
@@ -83,12 +113,12 @@ class RadiusConfig extends React.Component {
                     }
                 </div>
                 <hr />
-                {(this.randomRadiusSelected() || this.dynamicRadiusSelected()) && <RangeRadiusSelector />}
-                {this.fixedRadiusSelected() && <FixedRadiusSelector />}
+                {(this.randomRadiusSelected() || this.dynamicRadiusSelected()) && <RangeRadiusSelector onUpdate={this.onRangeUpdate} initialMin={this.state.minRadius} initialMax={this.state.maxRadius} />}
+                {this.fixedRadiusSelected() && <FixedRadiusSelector onUpdate={this.onFixedUpdate} />}
                 {this.dynamicRadiusSelected() &&
                     <div>
                         <hr />
-                        <JsonFieldSelector />
+                        <JsonFieldSelector onUpdate={this.onFieldUpdate} />
                     </div>
                 }
                 <hr />

@@ -11,6 +11,9 @@ export class FixedRadiusSelector extends React.Component {
         this.setState({
             'radius': event.target.value
         });
+        this.props.onUpdate(
+            { 'radius': event.target.value }
+        );
     }
 
     render() {
