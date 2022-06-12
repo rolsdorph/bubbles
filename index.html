@@ -63,10 +63,6 @@
             return Math.floor(Math.random() * (maxInclusive - minInclusive + 1) + minInclusive);
         }
 
-        function fillFor(targetValue) {
-            return "red";
-        }
-
         function start() {
             const modal = new bootstrap.Modal('#settings-modal');
             document.getElementById('settings').addEventListener('click', () => modal.show());
