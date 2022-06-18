@@ -42,6 +42,7 @@ export class RadiusConfig extends React.Component {
             maxValue: this.state.maxValue,
             jsonField: this.state.jsonField,
         });
+        this.hideModal();
     }
 
     onFixedUpdate(event) {
