@@ -7,96 +7,15 @@
     <script type="module">
         import { BubbleSimulator } from './out/bubble_simulator.js';
         import { randomInRange } from './out/util.js';
+        import { buildParsers, DEFAULT_PARSERS } from './out/message_parsing.js';
         import { RadiusConfig } from './out/config_modal/radius_config.js';
-        import { RANDOM, FIXED, DYNAMIC } from './out/types.js';
 
         const DEBUG_MODE = true;
         const WS_SERVER = "ws://127.0.0.1:3001";
         const WS_PROTOCOL = "bubbler-v0";
-        const COLORS = ['red', 'green', 'blue', 'purple', 'yellow', 'orange'];
+
         let bubbler;
-
-        function randomColor() {
-            return COLORS[randomInRange(0, COLORS.length - 1)];
-        }
-
-        let bubbleConfig = {
-            fieldExtractor: () => randomInRange(25, 100),
-            radiusMapper: r => r,
-            colorMapper: randomColor
-        }
-
-        function extractNumericOrDefault(extractor, defaultValue) {
-            return data => {
-                const extracted = extractor(data);
-                if (typeof extracted == 'number') {
-                    return extracted;
-                } else {
-                    return defaultValue;
-                }
-            }
-        }
-
-        function nestedFieldExtractor(fields) {
-            return data => {
-                let currentNode = data;
-                for (let field of fields) {
-                    currentNode = currentNode[field];
-                    if (currentNode === undefined) {
-                        return undefined;
-                    }
-                }
-                return currentNode;
-            };
-        }
-
-        function buildConfig(newConfig) {
-            if (newConfig.radiusType === RANDOM) {
-                return {
-                    fieldExtractor: () => randomInRange(newConfig.minRadius, newConfig.maxRadius),
-                    radiusMapper: r => r
-                };
-            } else if (newConfig.radiusType === FIXED) {
-                return {
-                    fieldExtractor: () => newConfig.radius,
-                    radiusMapper: r => r
-                };
-            } else if (newConfig.radiusType === DYNAMIC) {
-                const fields = newConfig.jsonField.split('.');
-                return {
-                    fieldExtractor: extractNumericOrDefault(
-                        nestedFieldExtractor(fields),
-                        newConfig.minRadius
-                    ),
-                    radiusMapper: interpolate(newConfig.minValue, newConfig.maxValue, newConfig.minRadius, newConfig.maxRadius)
-                };
-            } else {
-                console.error(`Unknown radius strategy: ${newConfig.radiusType}`);
-            }
-        }
-
-        function interpolate(dataRangeMin, dataRangeMax, valueRangeMin, valueRangeMax) {
-            return dataValue => {
-                if (dataValue <= dataRangeMin) {
-                    return valueRangeMin;
-                }
-
-                if (dataValue >= dataRangeMax) {
-                    return valueRangeMax;
-                }
-
-                // How many percent of the min-max range do we fill?
-                const position = (dataValue - dataRangeMin) / (dataRangeMax - dataRangeMin);
-
-                // Starting at the min radius, fill the same percentage of the value range
-                return valueRangeMin + (position * (valueRangeMax - valueRangeMin));
-            };
-        }
-
-        function onConfigChange(newConfig) {
-            bubbleConfig = buildConfig(newConfig);
-            bubbleConfig.colorMapper = randomColor;
-        }
+        let bubbleParsers = DEFAULT_PARSERS;
 
         function start() {
             ReactDOM.createRoot(document.getElementById("settings")).render(
@@ -116,13 +35,17 @@
             }
         }
 
+        function onConfigChange(newConfig) {
+            bubbleParsers = buildParsers(newConfig);
+        }
+
         function handleWsMessage(event) {
             const msg = JSON.parse(event.data);
             if (msg.type == "setupInfo") {
                 document.getElementById("webhookUrl").innerText = msg.webhookUrl;
             } else if (msg.type == "webhookMessage") {
-                let value = bubbleConfig.fieldExtractor(msg['dataFromWebhook']);
-                bubbler.addBubble(bubbleConfig.radiusMapper(value), bubbleConfig.colorMapper(value));
+                let value = bubbleParsers.fieldExtractor(msg['dataFromWebhook']);
+                bubbler.addBubble(bubbleParsers.radiusMapper(value), bubbleParsers.colorMapper(value));
             } else {
                 console.error(`Unexpected message type: ${msg.type}`);
             }
