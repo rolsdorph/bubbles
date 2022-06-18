@@ -66,9 +66,7 @@
         }
 
         function start() {
-            ReactDOM.createRoot(document.getElementById("radiusConfig")).render(React.createElement(RadiusConfig));
-            const modal = new bootstrap.Modal('#settings-modal');
-            document.getElementById('settings').addEventListener('click', () => modal.show());
+            ReactDOM.createRoot(document.getElementById("settings")).render(React.createElement(RadiusConfig));
             if (DEBUG_MODE) {
                 sendTestSetupMessage();
                 sendTestDataMessage();
@@ -167,11 +165,18 @@
         }
 
         div#settings {
+            position: absolute;
+            width: 100%;
+            padding-right: 0.5rem;
+            padding-top: 0.5rem;
+
             display: flex;
             justify-content: right;
-            margin-right: 1rem;
-            margin-top: 1rem;
             cursor: pointer;
+        }
+
+        span#settingButton > i {
+            margin-right: 0.2rem;
         }
 
         .modal-body {
@@ -187,29 +192,13 @@
 
 <body>
     <div id="settings">
-        <div id="settingButton">
-            <i id="settings-icon" class="bi bi-gear"></i>
-            Bubbles
-        </div>
+
     </div>
 
     <div id="webhookInfo">
         <span id="webhookUrl"></span>
     </div>
 
-    <div id="settings-modal" class="modal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body row">
-                    <div id="radiusConfig"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <canvas id="bubbles"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
