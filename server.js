@@ -44,9 +44,7 @@ const server = http.createServer((req, res) => {
                 try {
                     const parsedMessage = JSON.parse(body);
                     console.log(`Delivering message to ${proxyId}`);
-                    targetProxy.send(JSON.stringify(proxyMsg({
-                        'dataFromRequest': parsedMessage
-                    })));
+                    targetProxy.send(JSON.stringify(proxyMsg(parsedMessage)));
                     res.statusCode = 204;
                     res.end();
                 } catch (e) {
