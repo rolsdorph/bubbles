@@ -1,16 +1,13 @@
 import { FixedRadiusSelector } from './fixed_radius_selector.js';
 import { JsonFieldSelector } from './json_field_selector.js';
 import { RangeRadiusSelector } from './range_radius_selector.js';
+import { RANDOM, FIXED, DYNAMIC } from './types.js';
 
 export class RadiusConfig extends React.Component {
-    static random = 'random;'
-    static fixed = 'fixed';
-    static dynamic = 'dynamic';
-
     constructor(props) {
         super(props);
         this.state = {
-            'radiusType': RadiusConfig.random,
+            'radiusType': RANDOM,
             'radius': 40,
             'minRadius': 25,
             'maxRadius': 60,
@@ -67,15 +64,15 @@ export class RadiusConfig extends React.Component {
     }
 
     randomRadiusSelected() {
-        return this.state.radiusType === RadiusConfig.random;
+        return this.state.radiusType === RANDOM;
     }
 
     fixedRadiusSelected() {
-        return this.state.radiusType === RadiusConfig.fixed;
+        return this.state.radiusType === FIXED;
     }
 
     dynamicRadiusSelected() {
-        return this.state.radiusType === RadiusConfig.dynamic;
+        return this.state.radiusType === DYNAMIC;
     }
 
     updateFormState(event) {
@@ -119,17 +116,17 @@ export class RadiusConfig extends React.Component {
                                     <div className="row mb-3">
                                         <div id="radius-calculation" className="btn-group mb-3" role="group"
                                             aria-label="Radius calculation">
-                                            <input type="radio" name="radiusType" value={RadiusConfig.random} id="radius-random" className="btn-check" checked={this.randomRadiusSelected()}
+                                            <input type="radio" name="radiusType" value={RANDOM} id="radius-random" className="btn-check" checked={this.randomRadiusSelected()}
                                                 onChange={this.updateFormState}
                                             />
                                             <label className="btn btn-outline-primary" htmlFor="radius-random">Random</label>
 
-                                            <input type="radio" name="radiusType" value={RadiusConfig.fixed} id="radius-fixed" className="btn-check" checked={this.fixedRadiusSelected()}
+                                            <input type="radio" name="radiusType" value={FIXED} id="radius-fixed" className="btn-check" checked={this.fixedRadiusSelected()}
                                                 onChange={this.updateFormState}
                                             />
                                             <label className="btn btn-outline-primary" htmlFor="radius-fixed">Fixed</label>
 
-                                            <input type="radio" name="radiusType" value={RadiusConfig.dynamic} id="radius-data" className="btn-check" checked={this.dynamicRadiusSelected()}
+                                            <input type="radio" name="radiusType" value={DYNAMIC} id="radius-data" className="btn-check" checked={this.dynamicRadiusSelected()}
                                                 onChange={this.updateFormState}
                                             />
                                             <label className="btn btn-outline-primary" htmlFor="radius-data">Dynamic</label>
