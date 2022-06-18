@@ -9,6 +9,7 @@
         import { randomInRange } from './out/util.js';
         import { buildParsers, DEFAULT_PARSERS } from './out/message_parsing.js';
         import { RadiusConfig } from './out/config_modal/radius_config.js';
+        import { sendTestSetupMessage, sendTestDataMessage } from './out/test_util.js';
 
         const DEBUG_MODE = true;
         const WS_SERVER = "ws://127.0.0.1:3001";
@@ -26,9 +27,9 @@
             bubbler.start();
 
             if (DEBUG_MODE) {
-                sendTestSetupMessage();
-                sendTestDataMessage();
-                setInterval(sendTestDataMessage, 5000);
+                sendTestSetupMessage(handleWsMessage);
+                sendTestDataMessage(handleWsMessage);
+                setInterval(() => sendTestDataMessage(handleWsMessage), 5000);
             } else {
                 const ws = new WebSocket(WS_SERVER, WS_PROTOCOL);
                 ws.onmessage = handleWsMessage;
@@ -49,30 +50,6 @@
             } else {
                 console.error(`Unexpected message type: ${msg.type}`);
             }
-        }
-
-        function sendTestSetupMessage() {
-            handleWsMessage({
-                "data": JSON.stringify({
-                    "type": "setupInfo",
-                    "webhookUrl": "http://localhost:3000/mAdS"
-                })
-            });
-        }
-
-        function sendTestDataMessage() {
-            handleWsMessage({
-                "data": JSON.stringify({
-                    "type": "webhookMessage",
-                    "dataFromWebhook": {
-                        "room": {
-                            "data": {
-                                "temperature": randomInRange(5, 100)
-                            }
-                        }
-                    }
-                })
-            });
         }
 
         document.addEventListener('DOMContentLoaded', start);
