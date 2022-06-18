@@ -5,6 +5,7 @@
         Bubbles
     </title>
     <script type="module">
+        import { randomInRange } from './out/util.js';
         import { RadiusConfig } from './out/radius_config.js';
         import { RANDOM, FIXED, DYNAMIC } from './out/types.js';
 
@@ -60,10 +61,6 @@
                 "r": radius,
                 "fillStyle": fill
             });
-        }
-
-        function randomInRange(minInclusive, maxInclusive) {
-            return Math.floor(Math.random() * (maxInclusive - minInclusive + 1) + minInclusive);
         }
 
         function buildConfig(newConfig) {
