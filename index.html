@@ -65,8 +65,15 @@
             return Math.floor(Math.random() * (maxInclusive - minInclusive + 1) + minInclusive);
         }
 
+        function onConfigChange(newConfig) {
+            console.log("New config!", newConfig);
+        }
+
         function start() {
-            ReactDOM.createRoot(document.getElementById("settings")).render(React.createElement(RadiusConfig));
+            ReactDOM.createRoot(document.getElementById("settings")).render(
+                React.createElement(RadiusConfig, {'onSave': onConfigChange})
+            );
+
             if (DEBUG_MODE) {
                 sendTestSetupMessage();
                 sendTestDataMessage();

@@ -28,6 +28,20 @@ export class RadiusConfig extends React.Component {
         this.onFieldUpdate = this.onFieldUpdate.bind(this);
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
+        this.save = this.save.bind(this);
+        this.onSave = this.props.onSave;
+    }
+
+    save() {
+        this.onSave({
+            radiusType: this.state.radiusType,
+            radius: this.state.radius,
+            minRadius: this.state.minRadius,
+            maxRadius: this.state.maxRadius,
+            minValue: this.state.minValue,
+            maxValue: this.state.maxValue,
+            jsonField: this.state.jsonField,
+        });
     }
 
     onFixedUpdate(event) {
