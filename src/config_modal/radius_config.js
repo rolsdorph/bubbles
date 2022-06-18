@@ -1,7 +1,7 @@
 import { FixedRadiusSelector } from './fixed_radius_selector.js';
 import { JsonFieldSelector } from './json_field_selector.js';
 import { RangeRadiusSelector } from './range_radius_selector.js';
-import { RANDOM, FIXED, DYNAMIC } from './types.js';
+import { RANDOM, FIXED, DYNAMIC } from '../types.js';
 
 export class RadiusConfig extends React.Component {
     constructor(props) {
