@@ -5,6 +5,7 @@
         Bubbles
     </title>
     <script type="module">
+        import { BubbleSimulator } from './out/bubble_simulator.js';
         import { randomInRange } from './out/util.js';
         import { RadiusConfig } from './out/radius_config.js';
         import { RANDOM, FIXED, DYNAMIC } from './out/types.js';
@@ -12,16 +13,13 @@
         const DEBUG_MODE = true;
         const WS_SERVER = "ws://127.0.0.1:3001";
         const WS_PROTOCOL = "bubbler-v0";
-        const TICK_MS = 20; // 50 FPS
-        const FLOAT_SPEED = 0.6;
         const COLORS = ['red', 'green', 'blue', 'purple', 'yellow', 'orange'];
-        let lastRender;
+        let bubbler;
 
         function randomColor() {
             return COLORS[randomInRange(0, COLORS.length - 1)];
         }
 
-        const bubbles = [];
         let bubbleConfig = {
             fieldExtractor: () => randomInRange(25, 100),
             radiusMapper: r => r,
@@ -50,17 +48,6 @@
                 }
                 return currentNode;
             };
-        }
-
-        function addBubble(radius, fill) {
-            bubbles.push({
-                // Spawn at a random horizontal position, fully inside the viewport:
-                "x": randomInRange(radius, window.innerWidth - radius),
-                // Spawn just below the viewport:
-                "y": window.innerHeight + radius,
-                "r": radius,
-                "fillStyle": fill
-            });
         }
 
         function buildConfig(newConfig) {
@@ -116,6 +103,9 @@
                 React.createElement(RadiusConfig, { 'onSave': onConfigChange })
             );
 
+            bubbler = new BubbleSimulator(document.getElementById('bubbles'));
+            bubbler.start();
+
             if (DEBUG_MODE) {
                 sendTestSetupMessage();
                 sendTestDataMessage();
@@ -124,7 +114,6 @@
                 const ws = new WebSocket(WS_SERVER, WS_PROTOCOL);
                 ws.onmessage = handleWsMessage;
             }
-            window.requestAnimationFrame(render);
         }
 
         function handleWsMessage(event) {
@@ -133,39 +122,10 @@
                 document.getElementById("webhookUrl").innerText = msg.webhookUrl;
             } else if (msg.type == "webhookMessage") {
                 let value = bubbleConfig.fieldExtractor(msg['dataFromWebhook']);
-                addBubble(bubbleConfig.radiusMapper(value), bubbleConfig.colorMapper(value));
+                bubbler.addBubble(bubbleConfig.radiusMapper(value), bubbleConfig.colorMapper(value));
             } else {
                 console.error(`Unexpected message type: ${msg.type}`);
             }
-        }
-
-        function render(timestamp) {
-            if (lastRender === undefined) {
-                lastRender = timestamp;
-            }
-
-            if (timestamp - lastRender > TICK_MS) {
-                const canvas = document.getElementById("bubbles");
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-
-                const ctx = canvas.getContext('2d');
-                for (let i = bubbles.length - 1; i >= 0; i--) {
-                    const bubble = bubbles[i];
-
-                    bubble.y -= FLOAT_SPEED;
-                    if (bubble.y < -bubble.r) {
-                        // Fully out of view, remove it:
-                        bubbles.splice(i, 1);
-                    }
-                    ctx.beginPath();
-                    ctx.arc(bubble.x, bubble.y, bubble.r, 0, 2 * Math.PI, false);
-                    ctx.fillStyle = bubble.fillStyle;
-                    ctx.fill();
-                }
-            }
-
-            window.requestAnimationFrame(render);
         }
 
         function sendTestSetupMessage() {
