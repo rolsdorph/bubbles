@@ -30,12 +30,13 @@ const server = http.createServer((req, res) => {
         console.log(`Unknown proxy: ${proxyId}`);
         res.end('Not found');
     } else {
-        if (req.method.toUpperCase() !== 'POST') {
-            console.log(`Unsupported request method: ${req.method}`);
-            res.statusCode = 405;
-            res.setHeader('Allow', 'POST');
-            res.end('Method Not Allowed');
-        } else {
+        const method = req.method.toUpperCase();
+        if (method === 'GET') {
+            console.log(`Delivering empty message to ${proxyId} due to GET request`);
+            targetProxy.send(JSON.stringify(proxyMsg({})));
+            res.statusCode = 201;
+            res.end();
+        } else if (method === 'POST') {
             let body = '';
             req.on('data', d => {
                 body += d; // TODO: limit number of bytes here, or move to a framework that handles max size (and path mapping and whatnot)
@@ -45,7 +46,7 @@ const server = http.createServer((req, res) => {
                     const parsedMessage = JSON.parse(body);
                     console.log(`Delivering message to ${proxyId}`);
                     targetProxy.send(JSON.stringify(proxyMsg(parsedMessage)));
-                    res.statusCode = 204;
+                    res.statusCode = 201;
                     res.end();
                 } catch (e) {
                     if (e instanceof SyntaxError) {
@@ -59,6 +60,11 @@ const server = http.createServer((req, res) => {
                     }
                 }
             });
+        } else {
+            console.log(`Unsupported request method: ${req.method}`);
+            res.statusCode = 405;
+            res.setHeader('Allow', 'POST');
+            res.end('Method Not Allowed');
         }
     }
 });
