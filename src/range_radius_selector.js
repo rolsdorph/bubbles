@@ -53,21 +53,21 @@ export class RangeRadiusSelector extends React.Component {
     render() {
         return (
             <div>
-                <div class="row mb-3 align-items-center">
-                    <div class="col-4">Smallest bubble radius</div>
-                    <div class="col-lg-5 col-md-6">
-                        <input type="range" name="min" class="form-range" min="5" max="100" value={this.state.min} onChange={this.updateMin} />
+                <div className="row mb-3 align-items-center">
+                    <div className="col-4">Smallest bubble radius</div>
+                    <div className="col-lg-5 col-md-6">
+                        <input type="range" name="min" className="form-range" min="5" max="100" value={this.state.min} onChange={this.updateMin} />
                     </div>
-                    <div class="col">
+                    <div className="col">
                         {this.state.min}px
                     </div>
                 </div>
-                <div class="row align-items-center">
-                    <div class="col-4">Largest bubble radius</div>
-                    <div class="col-lg-5 col-md-6">
-                        <input type="range" name="max" class="form-range" min="5" max="100" value={this.state.max} onChange={this.updateMax} />
+                <div className="row align-items-center">
+                    <div className="col-4">Largest bubble radius</div>
+                    <div className="col-lg-5 col-md-6">
+                        <input type="range" name="max" className="form-range" min="5" max="100" value={this.state.max} onChange={this.updateMax} />
                     </div>
-                    <div class="col">
+                    <div className="col">
                         {this.state.max}px
                     </div>
                 </div>

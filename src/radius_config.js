@@ -69,32 +69,32 @@ export class RadiusConfig extends React.Component {
 
     render() {
         return (
-            <form class="container mb-4 p-4" >
-                <div class="row mb-4 text-center">
+            <form className="container mb-4 p-4" >
+                <div className="row mb-4 text-center">
                     <h4>
                         Radius calculation
                     </h4>
                 </div>
-                <div class="row mb-3">
-                    <div id="radius-calculation" class="btn-group mb-3" role="group"
+                <div className="row mb-3">
+                    <div id="radius-calculation" className="btn-group mb-3" role="group"
                         aria-label="Radius calculation">
-                        <input type="radio" name="radiusType" value={RadiusConfig.random} id="radius-random" class="btn-check" checked={this.randomRadiusSelected()}
+                        <input type="radio" name="radiusType" value={RadiusConfig.random} id="radius-random" className="btn-check" checked={this.randomRadiusSelected()}
                             onChange={this.updateFormState}
                         />
-                        <label class="btn btn-outline-primary" for="radius-random">Random</label>
+                        <label className="btn btn-outline-primary" htmlFor="radius-random">Random</label>
 
-                        <input type="radio" name="radiusType" value={RadiusConfig.fixed} id="radius-fixed" class="btn-check" checked={this.fixedRadiusSelected()}
+                        <input type="radio" name="radiusType" value={RadiusConfig.fixed} id="radius-fixed" className="btn-check" checked={this.fixedRadiusSelected()}
                             onChange={this.updateFormState}
                         />
-                        <label class="btn btn-outline-primary" for="radius-fixed">Fixed</label>
+                        <label className="btn btn-outline-primary" htmlFor="radius-fixed">Fixed</label>
 
-                        <input type="radio" name="radiusType" value={RadiusConfig.dynamic} id="radius-data" class="btn-check" checked={this.dynamicRadiusSelected()}
+                        <input type="radio" name="radiusType" value={RadiusConfig.dynamic} id="radius-data" className="btn-check" checked={this.dynamicRadiusSelected()}
                             onChange={this.updateFormState}
                         />
-                        <label class="btn btn-outline-primary" for="radius-data">Dynamic</label>
+                        <label className="btn btn-outline-primary" htmlFor="radius-data">Dynamic</label>
                     </div>
                 </div>
-                <div class="row mb-4 text-muted text-center">
+                <div className="row mb-4 text-muted text-center">
                     {this.randomRadiusSelected() &&
                         <span>
                             The bubble size is randomly selected between the given min and max value.

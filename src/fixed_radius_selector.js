@@ -19,12 +19,12 @@ export class FixedRadiusSelector extends React.Component {
     render() {
         return (
             <div>
-                <div class="row mb-3 align-items-center">
-                    <div class="col-4">Bubble radius</div>
-                    <div class="col-lg-5 col-md-6">
-                        <input type="range" class="form-range" min="5" max="100" value={this.state.radius} onChange={this.updateRadius} />
+                <div className="row mb-3 align-items-center">
+                    <div className="col-4">Bubble radius</div>
+                    <div className="col-lg-5 col-md-6">
+                        <input type="range" className="form-range" min="5" max="100" value={this.state.radius} onChange={this.updateRadius} />
                     </div>
-                    <div class="col">
+                    <div className="col">
                         {this.state.radius}px
                     </div>
                 </div>
