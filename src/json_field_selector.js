@@ -2,9 +2,9 @@ export class JsonFieldSelector extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            'field': null,
-            'min': null,
-            'max': null
+            'field': '',
+            'min': '',
+            'max': ''
         };
 
         this.updateFormState = this.updateFormState.bind(this);
