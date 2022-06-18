@@ -8,11 +8,13 @@ export class FixedRadiusSelector extends React.Component {
     }
 
     updateRadius(event) {
+        const newRadius = parseInt(event.target.value);
+
         this.setState({
-            'radius': event.target.value
+            'radius': newRadius
         });
         this.props.onUpdate(
-            { 'radius': event.target.value }
+            { 'radius': newRadius }
         );
     }
 
