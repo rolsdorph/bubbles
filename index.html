@@ -6,6 +6,7 @@
     </title>
     <script type="module">
         import { RadiusConfig } from './out/radius_config.js';
+        import { RANDOM, FIXED, DYNAMIC } from './out/types.js';
 
         const DEBUG_MODE = true;
         const WS_SERVER = "ws://127.0.0.1:3001";
@@ -20,7 +21,7 @@
         }
 
         const bubbles = [];
-        const bubbleConfig = {
+        let bubbleConfig = {
             fieldExtractor: () => randomInRange(25, 100),
             radiusMapper: r => r,
             colorMapper: randomColor
@@ -65,8 +66,52 @@
             return Math.floor(Math.random() * (maxInclusive - minInclusive + 1) + minInclusive);
         }
 
+        function buildConfig(newConfig) {
+            if (newConfig.radiusType === RANDOM) {
+                return {
+                    fieldExtractor: () => randomInRange(newConfig.minRadius, newConfig.maxRadius),
+                    radiusMapper: r => r
+                };
+            } else if (newConfig.radiusType === FIXED) {
+                return {
+                    fieldExtractor: () => newConfig.radius,
+                    radiusMapper: r => r
+                };
+            } else if (newConfig.radiusType === DYNAMIC) {
+                const fields = newConfig.jsonField.split('.');
+                return {
+                    fieldExtractor: extractNumericOrDefault(
+                        nestedFieldExtractor(fields),
+                        newConfig.minRadius
+                    ),
+                    radiusMapper: interpolate(newConfig.minValue, newConfig.maxValue, newConfig.minRadius, newConfig.maxRadius)
+                };
+            } else {
+                console.error(`Unknown radius strategy: ${newConfig.radiusType}`);
+            }
+        }
+
+        function interpolate(dataRangeMin, dataRangeMax, valueRangeMin, valueRangeMax) {
+            return dataValue => {
+                if (dataValue <= dataRangeMin) {
+                    return valueRangeMin;
+                }
+
+                if (dataValue >= dataRangeMax) {
+                    return valueRangeMax;
+                }
+
+                // How many percent of the min-max range do we fill?
+                const position = (dataValue - dataRangeMin) / (dataRangeMax - dataRangeMin);
+
+                // Starting at the min radius, fill the same percentage of the value range
+                return valueRangeMin + (position * (valueRangeMax - valueRangeMin));
+            };
+        }
+
         function onConfigChange(newConfig) {
-            console.log("New config!", newConfig);
+            bubbleConfig = buildConfig(newConfig);
+            bubbleConfig.colorMapper = randomColor;
         }
 
         function start() {
