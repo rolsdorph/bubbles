@@ -9,6 +9,7 @@ export class JsonFieldSelector extends React.Component {
 
         this.updateFormState = this.updateFormState.bind(this);
     }
+
     componentDidMount() {
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
@@ -16,11 +17,13 @@ export class JsonFieldSelector extends React.Component {
 
     updateFormState(event) {
         const newState = { [event.target.name]: event.target.value };
-        this.setState({
-            newState
+        this.setState(newState, () => {
+            this.props.onUpdate({
+                'field': this.state.field,
+                'min': this.state.min,
+                'max': this.state.max,
+            })
         });
-
-        this.props.onUpdate(newState);
     }
 
     render() {
