@@ -56,3 +56,27 @@ npx webpack --watch
 This will compile every necessary file from `frontend/src` into `frontend/out/bundle.js`.
 
 After this, open [index.html](frontend/index.html) in a browser to run the application. I recommend using some sort of auto-reload functionality for index.html as well (for example, [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) for VSCode).
+
+## Deploying
+Deploying Bubbles consist of a couple of steps:
+
+1) Run the server somewhere publicly accessible
+2) Create a production config:
+
+```
+cd frontend
+cp .env .env.production
+```
+
+Edit `.env.production`, pointing WS_URL to the location of the server from step 1
+
+3) Create a production build
+```
+npx webpack --env production
+```
+
+The only difference at the time of writing is that this causes the build to read `.env.production` rather than `.env`, but there might be other differences in the future.
+
+4) At this point, [out](frontend/out) contains the files needed for the client application (index.html and bundle.js). Deploy them somewhere publicly accessible.
+
+5) Bubbler should now be working! Navigate to the place you deployed index.html in step 4 to check it out.

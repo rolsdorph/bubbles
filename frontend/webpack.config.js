@@ -1,3 +1,4 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const dotenv = require('dotenv');
 const path = require('path');
 const webpack = require('webpack');
@@ -38,6 +39,11 @@ module.exports = (env) => {
         DEBUG_MODE: JSON.stringify(process.env['DEBUG_MODE'] === 'true'),
         WS_URL: JSON.stringify(process.env['WS_URL']),
         WS_PROTOCOL: JSON.stringify(process.env['WS_PROTOCOL']),
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: 'index.html' }
+        ]
       })
     ]
   }
