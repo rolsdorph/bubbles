@@ -1,3 +1,5 @@
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { RANDOM } from './types.js';
 import { BubbleSimulator } from './bubble_simulator.js';

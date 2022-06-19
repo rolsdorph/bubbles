@@ -1,3 +1,5 @@
+import { Modal } from 'bootstrap';
+
 import { FixedRadiusSelector } from './fixed_radius_selector.js';
 import { JsonFieldSelector } from './json_field_selector.js';
 import { RangeRadiusSelector } from './range_radius_selector.js';
@@ -82,7 +84,7 @@ export class RadiusConfig extends React.Component {
     }
 
     componentDidMount() {
-        const modal = new bootstrap.Modal('#settings-modal');
+        const modal = new Modal('#settings-modal');
         this.setState({
             'modal': modal
         });

@@ -1,3 +1,5 @@
+import { Tooltip } from 'bootstrap';
+
 export class JsonFieldSelector extends React.Component {
     constructor(props) {
         super(props);
@@ -12,7 +14,7 @@ export class JsonFieldSelector extends React.Component {
 
     componentDidMount() {
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl));
     }
 
     updateFormState(event) {
