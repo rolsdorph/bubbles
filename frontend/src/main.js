@@ -9,9 +9,13 @@ import { buildParsers } from './message_parsing.js';
 import { RadiusConfig } from './config_modal/radius_config.js';
 import { sendTestSetupMessage, sendTestDataMessage } from './test_util.js';
 
+/*
+DEBUG_MODE, WS_URL and WS_PROTOCOL must be injected by the Webpack build (or in some other way, like uncommenting these):
+
 const DEBUG_MODE = false;
-const WS_SERVER = "ws://127.0.0.1:3001";
+const WS_URL = 'ws://127.0.0.1:3001';
 const WS_PROTOCOL = "bubbler-v0";
+*/
 
 let bubbler;
 let bubbleConfig = {
@@ -42,7 +46,7 @@ function start() {
         shareButton.style.color = 'lightgray'; // Not enabled in debug mode
     } else {
         const restoreKey = new URL(window.location).searchParams.get('restoreFrom');
-        const wsUrl = restoreKey ? WS_SERVER + "/" + restoreKey : WS_SERVER;
+        const wsUrl = restoreKey ? WS_URL + "/" + restoreKey : WS_URL;
         ws = new WebSocket(wsUrl, WS_PROTOCOL);
         ws.onmessage = handleWsMessage;
         shareButton.addEventListener('click', persist);

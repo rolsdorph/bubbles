@@ -1,4 +1,6 @@
+const dotenv = require('dotenv').config();
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './src/main.js',
@@ -27,5 +29,12 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      DEBUG_MODE: JSON.stringify(process.env['DEBUG_MODE'] === 'true'),
+      WS_URL: JSON.stringify(process.env['WS_URL']),
+      WS_PROTOCOL: JSON.stringify(process.env['WS_PROTOCOL']),
+    })
+  ]
 };
