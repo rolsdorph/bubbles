@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import * as http from 'http';
 import { WebSocketServer } from 'ws';
 import { InMemoryPersistedWebhookStore } from './in-mem-persistence.js';
@@ -24,12 +25,17 @@ function createWebhookId() {
 
 const persistentWebhookStore = new InMemoryPersistedWebhookStore();
 
+function readEnvVar(varName, defaultValue) {
+    const val = process.env[varName];
+    return val === undefined ? defaultValue : val;
+}
+
 /**
  * Webhook server
  */
-const webhookBaseUrl = '127.0.0.1:3000';
-const webhookHostname = '127.0.0.1';
-const webhookPort = 3000;
+const webhookBindHost = readEnvVar('webhookBindHost', '127.0.0.1');
+const webhookBindPort = readEnvVar('webhookBindPort', 3000);
+const webhookPublicUrl = readEnvVar('webhookPublicUrl', ('http://' + webhookBindHost + ':' + webhookBindPort));
 
 const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/plain');
@@ -80,26 +86,26 @@ const server = http.createServer((req, res) => {
     }
 });
 
+server.listen(webhookBindPort, webhookBindHost, () => {
+    console.log(`Webhook server running at http://${webhookBindHost}:${webhookBindPort}/, advertising ${webhookPublicUrl}`);
+});
+
 function sendToProxies(msg, proxies) {
     for (const proxy of proxies) {
         proxy.send(msg);
     }
 }
 
-server.listen(webhookPort, webhookHostname, () => {
-    console.log(`Webhook server running at http://${webhookHostname}:${webhookPort}/, advertising ${webhookBaseUrl}`);
-});
-
 /**
  * Websocket server
  */
-const wsHostname = '127.0.0.1';
-const wsPort = 3001;
-const wsUrl = `ws://${wsHostname}:${wsPort}`;
+const wsBindHost = readEnvVar('wsBindHost', '127.0.0.1');
+const wsBindPort = readEnvVar('wsBindPort', 3001);
+const wsUrl = `ws://${wsBindHost}:${wsBindPort}`;
 
 const wss = new WebSocketServer({
-    host: wsHostname,
-    port: wsPort
+    host: wsBindHost,
+    port: wsBindPort
 }, () => {
     console.log(`WebSocket server running at ${wsUrl}`);
 });
@@ -156,14 +162,14 @@ wss.on('connection', (ws, request) => {
 function setupInfoMsg(webhookId) {
     return {
         'type': 'setupInfo',
-        'webhookUrl': `${webhookBaseUrl}/${webhookId}`
+        'webhookUrl': `${webhookPublicUrl}/${webhookId}`
     }
 }
 
 function restoredSetupInfoMsg(storedHook) {
     return {
         'type': 'restoredSetupInfo',
-        'webhookUrl': `${webhookBaseUrl}/${storedHook.webhookKey}`,
+        'webhookUrl': `${webhookPublicUrl}/${storedHook.webhookKey}`,
         'config': storedHook.config
     }
 }

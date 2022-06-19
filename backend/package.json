@@ -2,6 +2,7 @@
     "name": "bubbles-backend",
     "version": "0.0.1",
     "dependencies": {
+        "dotenv": "^16.0.1",
         "ws": "8.7.0"
     },
     "devDependencies": {
