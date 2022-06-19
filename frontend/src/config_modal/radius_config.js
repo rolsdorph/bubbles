@@ -101,12 +101,11 @@ export class RadiusConfig extends React.Component {
             <React.Fragment>
                 <span id="settingButton" onClick={this.showModal}>
                     <i id="settings-icon" className="bi bi-gear"></i>
-                    Bubbles
                 </span>
                 <div id="settings-modal" className="modal" tabIndex="-1">
                     <div className="modal-dialog modal-lg modal-dialog-centered">
                         <div className="modal-content">
-                            <div className="modal-body row">
+                            <div className="settings-modal-body modal-body row">
                                 <form className="container mb-4 p-4" >
                                     <div className="row mb-4 text-center">
                                         <h4>

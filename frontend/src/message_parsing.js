@@ -28,12 +28,6 @@ export function buildParsers(newConfig) {
     return parsers;
 }
 
-export const DEFAULT_PARSERS = {
-    fieldExtractor: () => randomInRange(25, 100),
-    radiusMapper: r => r,
-    colorMapper: randomColor
-};
-
 const identity = x => x;
 
 function randomColor() {
