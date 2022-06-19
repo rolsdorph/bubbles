@@ -1,5 +1,3 @@
-import cryptoRandomString from 'crypto-random-string';
-
 export function randomString(length) {
-    return cryptoRandomString({ length: length, type: 'alphanumeric' });
+    return (Math.random() + 1).toString(36).substring(length);
 }

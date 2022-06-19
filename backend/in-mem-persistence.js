@@ -25,7 +25,7 @@ export class InMemoryPersistedWebhookStore {
     generateKey() {
         let restoreKey;
         do {
-            restoreKey = randomString(32);
+            restoreKey = randomString(8);
         } while (this.store.has(restoreKey));
         return restoreKey;
     }
