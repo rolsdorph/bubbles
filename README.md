@@ -11,7 +11,7 @@ The bubbles can be configured to scale their sizes based on the payload sent to 
 ## Overview
 
 ### New webhook flow
-Bubbler consists of a client application (mostly pure Javascript, the bubble settings modal uses React) and a server (Node.js).
+Bubbles consists of a client application (mostly pure Javascript, the bubble settings modal uses React) and a server (Node.js).
 
 When the client starts, it opens a WebSocket connection to the server. The server generates a random webhook URL, and sends it to the client over the WebSocket.
 

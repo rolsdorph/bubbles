@@ -1,5 +1,5 @@
 {
-    "name": "bubbler",
+    "name": "bubbles-backend",
     "version": "0.0.1",
     "dependencies": {
         "ws": "8.7.0"
