@@ -20,7 +20,7 @@ function addProxy(wsConnection, connectionId) {
 }
 
 function createWebhookId() {
-    return randomString(7);
+    return randomString(5);
 }
 
 const persistentWebhookStore = new InMemoryPersistedWebhookStore();
