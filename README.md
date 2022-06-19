@@ -3,6 +3,8 @@ Bubbles is a simple webhook visualizer. When the application loads, the user is 
 
 The bubbles can be configured to scale their sizes based on the payload sent to the URL. Adding more bubble configuration options would be cool, and I'm hoping I'll get around to it :)
 
+Occasionally there's a live demo at https://bubbles.rolsdorph.io/. If not, check out these screenshots to get a sense of what this thing is:
+
 ![Bubbles flowing across screen](docs/bubbler_bubbling.png)
 ![Bubble radius configuration](docs/radius_config_dynamic.png)
 ![Saving a bubble config](docs/persisted_bubble.png)
