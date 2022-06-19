@@ -1,6 +1,6 @@
-import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { Modal, Tooltip } from 'bootstrap';
 import { createRoot } from 'react-dom';
 import React from 'react';
 import { RANDOM } from './types.js';
@@ -95,12 +95,12 @@ function showPersistedModal(restoreKey) {
     currentUrl.searchParams.set('restoreFrom', restoreKey);
 
     document.getElementById("persistedModalUrl").innerText = currentUrl;
-    const modal = new bootstrap.Modal(document.getElementById('persistedModal'));
+    const modal = new Modal(document.getElementById('persistedModal'));
     modal.show();
 }
 
 function copyUrlToClipboard(clickedElement) {
-    const tooltip = bootstrap.Tooltip.getOrCreateInstance(clickedElement.target, {
+    const tooltip = Tooltip.getOrCreateInstance(clickedElement.target, {
         title: 'Copied!',
         trigger: 'focus'
     });
