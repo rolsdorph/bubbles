@@ -1,4 +1,5 @@
 import { Tooltip } from 'bootstrap';
+import React from 'react';
 
 export class JsonFieldSelector extends React.Component {
     constructor(props) {

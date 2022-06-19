@@ -1,3 +1,5 @@
+import React from 'react';
+
 export class FixedRadiusSelector extends React.Component {
     constructor(props) {
         super(props);

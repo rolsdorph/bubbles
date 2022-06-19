@@ -1,4 +1,5 @@
 import { Modal } from 'bootstrap';
+import React from 'react';
 
 import { FixedRadiusSelector } from './fixed_radius_selector.js';
 import { JsonFieldSelector } from './json_field_selector.js';

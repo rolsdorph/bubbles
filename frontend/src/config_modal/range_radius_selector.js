@@ -1,3 +1,5 @@
+import React from 'react';
+
 export class RangeRadiusSelector extends React.Component {
     constructor(props) {
         super(props);

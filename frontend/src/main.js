@@ -1,6 +1,8 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { createRoot } from 'react-dom';
+import React from 'react';
 import { RANDOM } from './types.js';
 import { BubbleSimulator } from './bubble_simulator.js';
 import { buildParsers } from './message_parsing.js';
@@ -21,7 +23,7 @@ let bubbleParsers = buildParsers(bubbleConfig);
 let ws;
 
 function start() {
-    ReactDOM.createRoot(document.getElementById("settings")).render(
+    createRoot(document.getElementById("settings")).render(
         React.createElement(RadiusConfig, { 'onSave': onConfigChange })
     );
 

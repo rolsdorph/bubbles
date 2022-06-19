@@ -45,14 +45,14 @@ npx nodemon server.js
 ```
 
 ### Building the frontend
-I tried to avoid having a toolchain (hence the lack of Typescript), but ended up wanting to use React (and its JSX-based templates) for the settings modal. This means you'll have to compile the client source files (it also means I should convert the whole thing to Typescript now). I recommend using babel and `---watch` in order to automatically recompile when you make a change:
+The frontend uses Webpack to manage the Bootstrap and React dependencies. Webpack, in turn, delegates to Babel in order to preprocess the React JSX. For development, I recommend:
 
 ```
 cd frontend
 npm install # only first time
-npx babel --watch --presets react-app/prod --out-dir out src
+npx webpack --watch
 ```
 
-This will compile every JavaScript file in `frontend/src` into `frontend/out`.
+This will compile every necessary file from `frontend/src` into `frontend/out/bundle.js`.
 
 After this, open [index.html](frontend/index.html) in a browser to run the application. I recommend using some sort of auto-reload functionality for index.html as well (for example, [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) for VSCode).
