@@ -1,4 +1,6 @@
 import 'dotenv/config';
+
+import './tracing.js';
 import * as http from 'http';
 import { WebSocketServer } from 'ws';
 import { InMemoryPersistedWebhookStore } from './in-mem-persistence.js';

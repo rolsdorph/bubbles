@@ -82,3 +82,13 @@ The only difference at the time of writing is that this causes the build to read
 4) At this point, [out](frontend/out) contains the files needed for the client application (index.html and bundle.js). Deploy them somewhere publicly accessible.
 
 5) Bubbler should now be working! Navigate to the place you deployed index.html in step 4 to check it out.
+
+### Instrumentation
+The backend can run with basic OTEL instrumentation (the automatic Node.js instrumentation, shipping to Honeycomb).
+In order to enable instrumentation, define the relevant environment variables (see [backend/.env](backend/.env)).
+
+To use `dotenv` for reading environment variables (like the frontend does), one approach would be to run the server using
+
+```
+npx nodemon -r dotenv/config server.js dotenv_config_path=.env.production`
+```

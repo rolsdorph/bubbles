@@ -2,6 +2,9 @@
     "name": "bubbles-backend",
     "version": "0.0.1",
     "dependencies": {
+        "@opentelemetry/auto-instrumentations-node": "^0.31.2",
+        "@opentelemetry/exporter-trace-otlp-proto": "^0.31.0",
+        "@opentelemetry/sdk-node": "^0.31.0",
         "dotenv": "^16.0.1",
         "ws": "8.7.0"
     },
